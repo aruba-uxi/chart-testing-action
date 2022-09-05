@@ -1,9 +1,9 @@
 name: "Lint Charts"
 description: "Setup and lint the helm charts"
 inputs:
-  python-version:
-    description: "The python version to use"
-    required: true
+  # python-version:
+  #   description: "The python version to use"
+  #   required: true
   default-branch:
     description: "The default branch. master|main"
     required: true
@@ -34,10 +34,10 @@ runs:
       with:
         version: v3.4.0
 
-    - name: Setup Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: "${{ inputs.python-version }}"
+    # - name: Setup Python
+    #   uses: actions/setup-python@v2
+    #   with:
+    #     python-version: "${{ inputs.python-version }}"
 
     - name: Setup Chart Testing Tool
       uses: helm/chart-testing-action@v2.1.0
