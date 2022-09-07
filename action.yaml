@@ -1,8 +1,15 @@
 name: "Lint Charts"
 description: "Setup and lint the helm charts"
 inputs:
+  skip-setup:
+    description: "Skip the setup process if it has been run in the same job already"
+    required: false
+    default: "false"
   default-branch:
     description: "The default branch. master|main"
+    required: true
+  chart-directory:
+    description: "Path to the chart: ./charts/android-version-service"
     required: true
   aws-access-key-id:
     description: "AWS key for helm charts"
@@ -27,24 +34,27 @@ runs:
   using: "composite"
   steps:
     - name: Setup Helm
+      if: ${{ inputs.skip-setup == 'false' }}
       uses: azure/setup-helm@v1
       with:
         version: v3.4.0
 
     - name: Setup Just
+      if: ${{ inputs.skip-setup == 'false' }}
       uses: extractions/setup-just@v1
 
     - name: Setup Chart Testing Tool
+      if: ${{ inputs.skip-setup == 'false' }}
       uses: helm/chart-testing-action@v2.1.0
 
     - name: Setup Helm S3 Plugin
-      if: ${{ inputs.aws-access-key-id == 'true' }}
+      if: ${{ inputs.skip-setup == 'false' }}
       shell: bash
       run: |
         helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.12.0
 
     - name: Configure AWS Credentials
-      if: ${{ inputs.aws-access-key-id == 'true' }}
+      if: ${{ inputs.skip-setup == 'false' }}
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
@@ -70,6 +80,11 @@ runs:
       env:
         CT_CHART_DIRS: charts
         CT_VALIDATE_MAINTAINERS: false
+
+    - name: Update Chart Dependencies
+      shell: bash
+      run: |
+        helm dependency update ${{ inputs.chart-directory }}
 
     - name: Template Production Charts
       shell: bash
