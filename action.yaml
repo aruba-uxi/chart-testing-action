@@ -43,11 +43,13 @@ runs:
       uses: helm/chart-testing-action@v2.1.0
 
     - name: Setup Helm S3 Plugin
+      if: ${{ inputs.aws-access-key-id == 'true' }}
       shell: bash
       run: |
         helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.12.0
 
     - name: Configure AWS Credentials
+      if: ${{ inputs.aws-access-key-id == 'true' }}
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
@@ -76,15 +78,15 @@ runs:
 
     - name: Template Production Charts
       shell: bash
-      if: ${{steps.list-changed.outputs.changed == 'true'}} && ${{ values.test-production == 'true'}}
+      if: ${{steps.list-changed.outputs.changed == 'true' && inputs.test-production == 'true'}}
       run: just helm-template-production
 
     - name: Template Staging Charts
       shell: bash
-      if: ${{steps.list-changed.outputs.changed == 'true'}} && ${{ values.test-staging == 'true'}}
+      if: ${{steps.list-changed.outputs.changed == 'true' && inputs.test-staging == 'true'}}
       run: just helm-template-staging
 
     - name: Template Local Charts
       shell: bash
-      if: ${{steps.list-changed.outputs.changed == 'true'}} && ${{ values.test-local == 'true'}}
+      if: ${{steps.list-changed.outputs.changed == 'true' && inputs.test-local == 'true'}}
       run: just helm-template-local
