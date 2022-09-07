@@ -78,15 +78,15 @@ runs:
 
     - name: Template Production Charts
       shell: bash
-      if: ${{steps.list-changed.outputs.changed == 'true' && inputs.test-production == 'true'}}
+      if: ${{ steps.list-changed.outputs.changed == 'true' && inputs.test-production == 'true' }}
       run: just helm-template-production
 
     - name: Template Staging Charts
       shell: bash
-      if: ${{steps.list-changed.outputs.changed == 'true' && inputs.test-staging == 'true'}}
+      if: ${{ steps.list-changed.outputs.changed == 'true' && inputs.test-staging == 'true' }}
       run: just helm-template-staging
 
     - name: Template Local Charts
       shell: bash
-      if: ${{steps.list-changed.outputs.changed == 'true' && inputs.test-local == 'true'}}
+      if: ${{ steps.list-changed.outputs.changed == 'true' && inputs.test-local == 'true' }}
       run: just helm-template-local
