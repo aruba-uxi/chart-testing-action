@@ -39,10 +39,6 @@ runs:
       with:
         version: v3.4.0
 
-    - name: Setup Just
-      if: ${{ inputs.skip-setup == 'false' }}
-      uses: extractions/setup-just@v1
-
     - name: Setup Chart Testing Tool
       if: ${{ inputs.skip-setup == 'false' }}
       uses: helm/chart-testing-action@v2.1.0
@@ -89,14 +85,14 @@ runs:
     - name: Template Production Charts
       shell: bash
       if: ${{ inputs.test-production == 'true' }}
-      run: just helm-template-production
+      run: helm template ${{ inputs.chart-directory }} -f ${{ inputs.chart-directory }}/values-production.yaml
 
     - name: Template Staging Charts
       shell: bash
       if: ${{ inputs.test-staging == 'true' }}
-      run: just helm-template-staging
+      run: helm template ${{ inputs.chart-directory }} -f ${{ inputs.chart-directory }}/values-staging.yaml
 
     - name: Template Local Charts
       shell: bash
       if: ${{ inputs.test-local == 'true' }}
-      run: just helm-template-local
+      run: helm template ${{ inputs.chart-directory }} -f ${{ inputs.chart-directory }}/values.yaml
