@@ -49,12 +49,6 @@ runs:
       with:
         version: v3.4.0
 
-    - name: Setup Helm S3 Plugin
-      if: ${{ inputs.skip-helm-setup == 'false' }}
-      shell: bash
-      run: |
-        helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.14.0
-
     - name: Configure AWS Credentials
       if: ${{ inputs.skip-aws-setup == 'false' }}
       uses: aws-actions/configure-aws-credentials@v1
@@ -62,6 +56,12 @@ runs:
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
         aws-region: ${{ inputs.aws-region }}
+
+    - name: Setup Helm S3 Plugin
+      if: ${{ inputs.skip-helm-setup == 'false' }}
+      shell: bash
+      run: |
+        helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.14.0
 
     - name: Setup Chart Testing Tool
       if: ${{ inputs.skip-helm-setup == 'false' }}
