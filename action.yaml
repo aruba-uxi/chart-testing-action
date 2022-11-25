@@ -1,8 +1,12 @@
 name: "Lint Charts"
 description: "Setup and lint the helm charts"
 inputs:
-  skip-setup:
-    description: "Skip the setup process if it has been run in the same job already"
+  skip-helm-setup:
+    description: "Skip the helm setup process if it has been run in the same job already"
+    required: false
+    default: "false"
+  skip-aws-setup:
+    description: "Skip the AWS setup process if it has been run in the same job already"
     required: false
     default: "false"
   default-branch:
@@ -37,23 +41,23 @@ runs:
   using: "composite"
   steps:
     - name: Setup Helm
-      if: ${{ inputs.skip-setup == 'false' }}
+      if: ${{ inputs.skip-helm-setup == 'false' }}
       uses: azure/setup-helm@v3
       with:
         version: v3.4.0
 
     - name: Setup Chart Testing Tool
-      if: ${{ inputs.skip-setup == 'false' }}
+      if: ${{ inputs.skip-helm-setup == 'false' }}
       uses: helm/chart-testing-action@v2.1.0
 
     - name: Setup Helm S3 Plugin
-      if: ${{ inputs.skip-setup == 'false' }}
+      if: ${{ inputs.skip-helm-setup == 'false' }}
       shell: bash
       run: |
         helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.14.0
 
     - name: Configure AWS Credentials
-      if: ${{ inputs.skip-setup == 'false' }}
+      if: ${{ inputs.skip-aws-setup == 'false' }}
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
