@@ -49,10 +49,6 @@ runs:
       with:
         version: v3.4.0
 
-    - name: Setup Chart Testing Tool
-      if: ${{ inputs.skip-helm-setup == 'false' }}
-      uses: helm/chart-testing-action@v2.1.0
-
     - name: Setup Helm S3 Plugin
       if: ${{ inputs.skip-helm-setup == 'false' }}
       shell: bash
@@ -66,6 +62,10 @@ runs:
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
         aws-region: ${{ inputs.aws-region }}
+
+    - name: Setup Chart Testing Tool
+      if: ${{ inputs.skip-helm-setup == 'false' }}
+      uses: helm/chart-testing-action@v2.3.1
 
     - name: Run Chart Changes Test
       id: list-changed
