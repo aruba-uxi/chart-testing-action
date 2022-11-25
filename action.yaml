@@ -1,39 +1,42 @@
 name: "Lint Charts"
 description: "Setup and lint the helm charts"
 inputs:
-  skip-helm-setup:
-    description: "Skip the helm setup process if it has been run in the same job already"
-    required: false
-    default: "false"
-  skip-aws-setup:
-    description: "Skip the AWS setup process if it has been run in the same job already"
-    required: false
-    default: "false"
+  aws-access-key-id:
+    description: "AWS key for helm charts"
+    required: true
+  aws-region:
+    description: "The AWS region where there S3 bucket is created"
+    required: true
+  aws-secret-access-key:
+    description: "AWS secret for helm charts"
+    required: true
+  chart-directory:
+    description: "Path to the charts"
+    required: true
   default-branch:
     description: "The default branch. master|main"
     required: true
   deployment-name:
     description: "The name of the helm deployment"
     required: true
-  chart-directory:
-    description: "Path to the charts"
-    required: true
-  aws-access-key-id:
-    description: "AWS key for helm charts"
-    required: true
-  aws-secret-access-key:
-    description: "AWS secret for helm charts"
-    required: true
+  skip-aws-setup:
+    description: "Skip the AWS setup process if it has been run in the same job already"
+    required: false
+    default: "false"
+  skip-helm-setup:
+    description: "Skip the helm setup process if it has been run in the same job already"
+    required: false
+    default: "false"
+  test-local:
+    description: "Test the templating of local values"
+    required: false
+    default: "true"
   test-production:
     description: "Test the templating of production values"
     required: false
     default: "true"
   test-staging:
     description: "Test the templating of staging values"
-    required: false
-    default: "true"
-  test-local:
-    description: "Test the templating of local values"
     required: false
     default: "true"
 
@@ -62,7 +65,7 @@ runs:
       with:
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
-        aws-region: us-west-2
+        aws-region: ${{ inputs.aws-region }}
 
     - name: Run Chart Changes Test
       id: list-changed
