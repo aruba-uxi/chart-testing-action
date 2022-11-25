@@ -49,14 +49,6 @@ runs:
       with:
         version: v3.4.0
 
-    - name: Configure AWS Credentials
-      if: ${{ inputs.skip-aws-setup == 'false' }}
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ inputs.aws-access-key-id }}
-        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
-        aws-region: ${{ inputs.aws-region }}
-
     - name: Setup Helm S3 Plugin
       if: ${{ inputs.skip-helm-setup == 'false' }}
       shell: bash
@@ -66,6 +58,14 @@ runs:
     - name: Setup Chart Testing Tool
       if: ${{ inputs.skip-helm-setup == 'false' }}
       uses: helm/chart-testing-action@v2.3.1
+
+    - name: Configure AWS Credentials
+      if: ${{ inputs.skip-aws-setup == 'false' }}
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        aws-region: ${{ inputs.aws-region }}
 
     - name: Run Chart Changes Test
       id: list-changed
