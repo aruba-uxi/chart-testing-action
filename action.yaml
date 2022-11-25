@@ -86,6 +86,7 @@ runs:
       env:
         CT_CHART_DIRS: charts
         CT_VALIDATE_MAINTAINERS: false
+        CT_TARGET_BRANCH: ${{ inputs.default-branch }}
 
     - name: Update Chart Dependencies
       shell: bash
