@@ -8,8 +8,11 @@ inputs:
   default-branch:
     description: "The default branch. master|main"
     required: true
+  deployment-name:
+    description: "The name of the helm deployment"
+    required: true
   chart-directory:
-    description: "Path to the chart: ./charts/android-version-service"
+    description: "Path to the charts"
     required: true
   aws-access-key-id:
     description: "AWS key for helm charts"
@@ -35,13 +38,9 @@ runs:
   steps:
     - name: Setup Helm
       if: ${{ inputs.skip-setup == 'false' }}
-      uses: azure/setup-helm@v1
+      uses: azure/setup-helm@v3
       with:
         version: v3.4.0
-
-    - name: Setup Just
-      if: ${{ inputs.skip-setup == 'false' }}
-      uses: extractions/setup-just@v1
 
     - name: Setup Chart Testing Tool
       if: ${{ inputs.skip-setup == 'false' }}
@@ -51,7 +50,7 @@ runs:
       if: ${{ inputs.skip-setup == 'false' }}
       shell: bash
       run: |
-        helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.12.0
+        helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.14.0
 
     - name: Configure AWS Credentials
       if: ${{ inputs.skip-setup == 'false' }}
@@ -89,14 +88,14 @@ runs:
     - name: Template Production Charts
       shell: bash
       if: ${{ inputs.test-production == 'true' }}
-      run: just helm-template-production
+      run: helm template ${{ inputs.deployment-name }} ${{ inputs.chart-directory }} -n ${{ inputs.deployment-name }} -f ${{ inputs.chart-directory }}/values.yaml -f ${{ inputs.chart-directory }}/values-production.yaml
 
     - name: Template Staging Charts
       shell: bash
       if: ${{ inputs.test-staging == 'true' }}
-      run: just helm-template-staging
+      run: helm template ${{ inputs.deployment-name }} ${{ inputs.chart-directory }} -n ${{ inputs.deployment-name }} -f ${{ inputs.chart-directory }}/values.yaml -f ${{ inputs.chart-directory }}/values-staging.yaml
 
     - name: Template Local Charts
       shell: bash
       if: ${{ inputs.test-local == 'true' }}
-      run: just helm-template-local
+      run: helm template ${{ inputs.deployment-name }} ${{ inputs.chart-directory }} -n ${{ inputs.deployment-name }} -f ${{ inputs.chart-directory }}/values.yaml
