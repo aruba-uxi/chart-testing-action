@@ -1,0 +1,1 @@
+# Helm Chart Linting Action
