@@ -94,23 +94,23 @@ runs:
         CT_VALIDATE_MAINTAINERS: false
         CT_TARGET_BRANCH: ${{ inputs.default-branch }}
 
-    - name: Run Chart Linting Test
+    - name: Run Chart Linting Test (skip version bump)
       shell: bash
       if: ${{ inputs.skip-version-bump-check == 'true' }}
       run: ct lint
       env:
         CT_CHART_DIRS: charts
         CT_VALIDATE_MAINTAINERS: false
+        CT_CHECK_VERSION_INCREMENT: false
         CT_TARGET_BRANCH: ${{ inputs.default-branch }}
 
-    - name: Run Chart Linting Test (skip version bump)
+    - name: Run Chart Linting Test
       shell: bash
       if: ${{ inputs.skip-version-bump-check == 'false' }}
       run: ct lint
       env:
         CT_CHART_DIRS: charts
         CT_VALIDATE_MAINTAINERS: false
-        CT_CHECK_VERSION_INCREMENT: false
         CT_TARGET_BRANCH: ${{ inputs.default-branch }}
 
     - name: Update Chart Dependencies
