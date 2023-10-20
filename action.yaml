@@ -116,6 +116,7 @@ runs:
     - name: Update Chart Dependencies
       shell: bash
       run: |
+        helm repo add aruba-uxi s3://hpe-uxi-helm-repo
         helm dependency update ${{ inputs.chart-directory }}
 
     - name: Template Production Charts
