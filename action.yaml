@@ -81,6 +81,12 @@ runs:
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
         aws-region: ${{ inputs.aws-region }}
 
+    - name: Update Chart Dependencies
+      shell: bash
+      run: |
+        helm repo add aruba-uxi s3://hpe-uxi-helm-repo
+        helm dependency update ${{ inputs.chart-directory }}
+
     - name: Run Chart Changes Test
       id: list-changed
       shell: bash
@@ -131,12 +137,6 @@ runs:
         CT_CHART_DIRS: charts
         CT_VALIDATE_MAINTAINERS: false
         CT_TARGET_BRANCH: ${{ inputs.default-branch }}
-
-    - name: Update Chart Dependencies
-      shell: bash
-      run: |
-        helm repo add aruba-uxi s3://hpe-uxi-helm-repo
-        helm dependency update ${{ inputs.chart-directory }}
 
     - name: Template Production Charts
       shell: bash
