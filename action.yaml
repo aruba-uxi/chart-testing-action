@@ -80,7 +80,7 @@ runs:
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
         aws-region: ${{ inputs.aws-region }}
-    
+
     - name: Update Chart Dependencies
       shell: bash
       run: |
@@ -136,7 +136,7 @@ runs:
       env:
         CT_CHART_DIRS: charts
         CT_VALIDATE_MAINTAINERS: false
-        CT_TARGET_BRANCH: ${{ inputs.default-branch }}       
+        CT_TARGET_BRANCH: ${{ inputs.default-branch }}
 
     - name: Template Production Charts
       shell: bash
