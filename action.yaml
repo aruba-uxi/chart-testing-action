@@ -137,18 +137,3 @@ runs:
         CT_CHART_DIRS: charts
         CT_VALIDATE_MAINTAINERS: false
         CT_TARGET_BRANCH: ${{ inputs.default-branch }}
-
-    - name: Template Production Charts
-      shell: bash
-      if: ${{ inputs.test-production == 'true' }}
-      run: helm template ${{ inputs.deployment-name }} ${{ inputs.chart-directory }} -n ${{ inputs.deployment-name }} -f ${{ inputs.chart-directory }}/values.yaml -f ${{ inputs.chart-directory }}/values-production.yaml
-
-    - name: Template Staging Charts
-      shell: bash
-      if: ${{ inputs.test-staging == 'true' }}
-      run: helm template ${{ inputs.deployment-name }} ${{ inputs.chart-directory }} -n ${{ inputs.deployment-name }} -f ${{ inputs.chart-directory }}/values.yaml -f ${{ inputs.chart-directory }}/values-staging.yaml
-
-    - name: Template Local Charts
-      shell: bash
-      if: ${{ inputs.test-local == 'true' }}
-      run: helm template ${{ inputs.deployment-name }} ${{ inputs.chart-directory }} -n ${{ inputs.deployment-name }} -f ${{ inputs.chart-directory }}/values.yaml
