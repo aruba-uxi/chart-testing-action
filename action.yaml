@@ -83,8 +83,7 @@ runs:
 
     - name: Update Chart Dependencies
       shell: bash
-      run: |
-        helm repo add aruba-uxi s3://hpe-uxi-helm-repo
+      run: |        
         helm dependency update ${{ inputs.chart-directory }}
 
     - name: Run Chart Changes Test
