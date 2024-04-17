@@ -105,7 +105,7 @@ runs:
       if: ${{ inputs.skip-version-bump-check == 'true' }}
       run: ct lint --helm-lint-extra-args '--values ${{ inputs.chart-directory }}/values-production.yaml'
       env:
-        CT_CHART_DIRS: charts
+        CT_CHART_DIRS: ${{inputs.chart-directory}}
         CT_VALIDATE_MAINTAINERS: false
         CT_CHECK_VERSION_INCREMENT: false
         CT_TARGET_BRANCH: ${{ inputs.default-branch }}
@@ -115,7 +115,7 @@ runs:
       if: ${{ inputs.skip-version-bump-check == 'false' }}
       run: ct lint --helm-lint-extra-args '--values ${{ inputs.chart-directory }}/values-production.yaml'
       env:
-        CT_CHART_DIRS: charts
+        CT_CHART_DIRS: ${{inputs.chart-directory}}
         CT_VALIDATE_MAINTAINERS: false
         CT_TARGET_BRANCH: ${{ inputs.default-branch }}
 
@@ -124,7 +124,7 @@ runs:
       if: ${{ inputs.skip-version-bump-check == 'true' }}
       run: ct lint --helm-lint-extra-args '--values ${{ inputs.chart-directory }}/values-staging.yaml'
       env:
-        CT_CHART_DIRS: charts
+        CT_CHART_DIRS: ${{inputs.chart-directory}}
         CT_VALIDATE_MAINTAINERS: false
         CT_CHECK_VERSION_INCREMENT: false
         CT_TARGET_BRANCH: ${{ inputs.default-branch }}
@@ -134,6 +134,6 @@ runs:
       if: ${{ inputs.skip-version-bump-check == 'false' }}
       run: ct lint --helm-lint-extra-args '--values ${{ inputs.chart-directory }}/values-staging.yaml'
       env:
-        CT_CHART_DIRS: charts
+        CT_CHART_DIRS: ${{inputs.chart-directory}}
         CT_VALIDATE_MAINTAINERS: false
         CT_TARGET_BRANCH: ${{ inputs.default-branch }}
