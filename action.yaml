@@ -118,7 +118,7 @@ runs:
       
     - name: Remove Chart.lock
       shell: bash
-      run: rm ${{ inputs.chart-directory }}/Chart.lock
+      run: rm -f ${{ inputs.chart-directory }}/Chart.lock
 
     - name: Run Staging Chart Linting Test (skip version bump)
       shell: bash
