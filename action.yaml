@@ -115,6 +115,10 @@ runs:
       env:        
         CT_VALIDATE_MAINTAINERS: false
         CT_TARGET_BRANCH: ${{ inputs.default-branch }}
+      
+    - name: Remove Chart.lock
+      shell: bash
+      run: rm ${{ inputs.chart-directory }}/Chart.lock
 
     - name: Run Staging Chart Linting Test (skip version bump)
       shell: bash
