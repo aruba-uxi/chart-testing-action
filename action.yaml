@@ -81,10 +81,10 @@ runs:
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
         aws-region: ${{ inputs.aws-region }}
 
-    - name: Update Chart Dependencies
-      shell: bash
-      run: |        
-        helm dependency update ${{ inputs.chart-directory }}
+    # - name: Update Chart Dependencies
+    #   shell: bash
+    #   run: |        
+    #     helm dependency update ${{ inputs.chart-directory }}
 
     - name: Run Chart Changes Test
       id: list-changed
