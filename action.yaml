@@ -98,7 +98,7 @@ runs:
       shell: bash
       if: ${{ inputs.skip-version-bump-check == 'true' }}
       run: ct lint --charts ${{ inputs.chart-directory }} --check-version-increment false --helm-lint-extra-args '-f ${{ inputs.chart-directory }}/values.yaml -f ${{ inputs.chart-directory }}/values-production.yaml'
-      env:        
+      env:
         CT_VALIDATE_MAINTAINERS: false
         CT_CHECK_VERSION_INCREMENT: false
         CT_TARGET_BRANCH: ${{ inputs.default-branch }}
@@ -107,10 +107,10 @@ runs:
       shell: bash
       if: ${{ inputs.skip-version-bump-check == 'false' }}
       run: ct lint --charts ${{ inputs.chart-directory }} --helm-lint-extra-args '-f ${{ inputs.chart-directory }}/values.yaml -f ${{ inputs.chart-directory }}/values-production.yaml'
-      env:        
+      env:
         CT_VALIDATE_MAINTAINERS: false
         CT_TARGET_BRANCH: ${{ inputs.default-branch }}
-      
+
     - name: Remove Chart.lock
       shell: bash
       run: rm -f ${{ inputs.chart-directory }}/Chart.lock
@@ -119,7 +119,7 @@ runs:
       shell: bash
       if: ${{ inputs.skip-version-bump-check == 'true' }}
       run: ct lint --charts ${{ inputs.chart-directory }} --check-version-increment false --helm-lint-extra-args '-f ${{ inputs.chart-directory }}/values.yaml -f ${{ inputs.chart-directory }}/values-staging.yaml'
-      env:       
+      env:
         CT_VALIDATE_MAINTAINERS: false
         CT_CHECK_VERSION_INCREMENT: false
         CT_TARGET_BRANCH: ${{ inputs.default-branch }}
